@@ -1,44 +1,46 @@
-# Cosva IoT — descargas
+# Cosva IoT releases
 
-Instaladores y versiones distribuidas de Cosva para **Raspberry Pi 5 de 8 GB**, con **Ubuntu Desktop 24.04 o 26.04 LTS ARM64**.
+Public installers and release artifacts for **Raspberry Pi 5 (8 GB)** running **Ubuntu Desktop 24.04 or 26.04 LTS ARM64**.
 
-**[Abrir la página de descargas](https://github.com/cosva-lab/cosva-iot-releases/releases)**
+**[Download Cosva](https://github.com/cosva-lab/cosva-iot-releases/releases)**
 
-No necesitas cuenta ni token de GitHub para descargar el instalador o las imágenes de la aplicación. Este repositorio contiene documentación y archivos distribuidos; el desarrollo se mantiene en repositorios privados.
+Downloads do not require a GitHub account or token. Development source is maintained in the private `cosva-lab/cosva-iot` monorepo. This repository contains distribution documentation and release artifacts only.
 
-## Instalar
+## Install
 
-1. Descarga el archivo `cosva-setup_VERSION_arm64.deb` y su `.sha256` desde una versión publicada.
-2. En la Raspberry, fuera del ordeño, verifica e instala:
+1. Download `cosva-setup_VERSION_arm64.deb` and its `.sha256` receipt from a release.
+2. On the Raspberry, outside milking hours, verify and install:
 
 ```sh
 sha256sum -c cosva-setup_VERSION_arm64.deb.sha256
 sudo apt install ./cosva-setup_VERSION_arm64.deb
 ```
 
-3. Abre **Cosva — Installation and recovery**, o `http://127.0.0.1:3501/setup`.
-4. Crea el administrador del equipo y elige una instalación nueva o la adopción de una existente.
-5. Proporciona la configuración de tu finca. Una instalación nueva también requiere la clave de la API y la contraseña MQTT configurada en los dispositivos.
-6. Sigue el progreso. Al terminar, reinicia manualmente para comprobar el arranque de Cosva al encender.
+3. Open **Cosva — Installation and recovery**, or `http://127.0.0.1:3501/setup`.
+4. Create the local administrator and choose a new installation or adoption of an existing one.
+5. Supply the farm configuration. A new installation also needs the farm API key and the MQTT password provisioned on the devices.
+6. Follow setup progress. Once setup finishes, reboot manually to verify automatic startup.
 
-El Debian instala el helper y sus servicios. El asistente prepara Docker, Compose, Chromium y la aplicación después de terminar APT. La aplicación funciona localmente; la primera instalación y la descarga de una versión nueva requieren internet.
+The Debian installs the compiled helper and its services. The assistant installs Docker, Compose, Chromium and the application after APT finishes. The Raspberry host does not need Node.js, Go or Python. The application operates locally; initial installation and downloading a new release require internet access.
 
-## Versiones y actualizaciones
+## Release channels and updates
 
-- **Candidata / prerelease:** para pruebas en una Pi y certificación con sensores reales. No se considera lista para producción.
-- **Estable / latest:** requiere evidencia de certificación física antes de su promoción.
-- Publicar una versión no actualiza los equipos. Cada actualización necesita una solicitud del administrador desde **Configuración → Actualizaciones**.
-- Si hay ordeño o un turno abierto, la actualización se rechaza. El helper verifica firma, esquema y respaldo antes de reemplazar servicios y comprueba la pantalla y los servicios antes de habilitar nuevos ordeños.
-- La recuperación utiliza las imágenes anteriores guardadas localmente; no restaura automáticamente la base de datos sobre datos nuevos.
+- **Candidate / prerelease:** for testing and certification on a real Pi with real sensors. It is not considered production-ready.
+- **Stable / latest:** requires matching physical certification evidence before promotion.
+- Publishing a release never updates devices automatically. Each update requires an administrator's request from **Settings → Updates**.
+- Active milking or an open parlor session rejects the update. The supervisor verifies signatures, schema compatibility and a restored scratch backup before replacement, then checks the services and browser rendering.
+- Recovery uses previously verified local images without automatically restoring a database over newer production or outbox data.
 
-La pantalla administrativa de recuperación está en `http://127.0.0.1:3501/updates`. Sigue funcionando aunque el dashboard de Cosva no cargue.
+The independent recovery panel remains at `http://127.0.0.1:3501/updates` when the application dashboard is unavailable.
 
-## Archivos de cada entrega
+## Release assets
 
-| Archivo | Uso |
+| File | Purpose |
 | --- | --- |
-| `cosva-setup_VERSION_arm64.deb` | Instalador para Ubuntu Desktop ARM64 |
-| `cosva-setup_VERSION_arm64.deb.sha256` | Comprobación de integridad del instalador |
-| `release.json` | Manifiesto firmado con las imágenes y versiones exactas |
+| `cosva-setup_VERSION_arm64.deb` | Ubuntu Desktop ARM64 installer |
+| `cosva-setup_VERSION_arm64.deb.sha256` | Installer integrity receipt |
+| `release.json` | Signed manifest containing exact images and versions |
 
-La Raspberry verifica los manifiestos con la clave pública incluida en el instalador. Las imágenes se descargan por digest inmutable. La clave privada de firma, las credenciales de construcción y los datos de las fincas no se distribuyen.
+The Raspberry verifies manifests with the trusted public key embedded in the installer and downloads images by immutable digest. Private signing keys, build credentials and farm data are not distributed.
+
+Version **1.0.1** has a known packaging issue on clean systems. Use **1.0.2 or newer** instead; repair does not require deleting configuration or Docker volumes.
