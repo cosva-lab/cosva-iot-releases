@@ -8,15 +8,11 @@ Downloads do not require a GitHub account or token. Development source is mainta
 
 ## Install
 
-1. Download `cosva-setup_VERSION_arm64.deb` and its `.sha256` receipt from a release.
-2. On the Raspberry, outside milking hours, verify and install:
+1. Download `cosva-setup_VERSION_arm64.deb` from a release.
+2. On the Raspberry, outside milking hours, open a terminal in its download directory and install:
 
 ```sh
-sha256sum -c cosva-setup_VERSION_arm64.deb.sha256 &&
-cosva_install_dir=$(mktemp -d /tmp/cosva-install.XXXXXX) &&
-chmod 0755 "$cosva_install_dir" &&
-install -m 0644 cosva-setup_VERSION_arm64.deb "$cosva_install_dir/" &&
-sudo apt install "$cosva_install_dir/cosva-setup_VERSION_arm64.deb"
+sudo apt install ./cosva-setup_VERSION_arm64.deb
 ```
 
 3. Open **Cosva — Installation and recovery**, or `http://127.0.0.1:3501/setup`.
@@ -26,9 +22,19 @@ sudo apt install "$cosva_install_dir/cosva-setup_VERSION_arm64.deb"
 
 The Debian installs the compiled helper and its services. The assistant installs Docker, Compose, Chromium and the application after APT finishes. The Raspberry host does not need Node.js, Go or Python. The application operates locally; initial installation and downloading a new release require internet access.
 
-The temporary copy lets APT's restricted `_apt` account read the installer even when Downloads is private. It does not change your home-directory permissions or disable APT's sandbox. If installation already completed and ended only with `Download is performed unsandboxed as root ... Permission denied`, continue to the setup panel; that notice alone does not require reinstallation.
+APT may print `Download is performed unsandboxed as root ... Permission denied` when its `_apt` account cannot read a private Downloads directory. If installation completed and ended only with that notice, continue to the setup panel; the notice alone does not require reinstallation. No directory-permission or APT-configuration changes are needed.
 
 Check an existing installation with `dpkg-query -W cosva-setup` and `systemctl is-active cosva-worker.service cosva-web.service`. The package should show the installed version and both services should report `active`.
+
+### Optional integrity check
+
+To check the downloaded file before installation, download its matching `.sha256` receipt into the same directory and run:
+
+```sh
+sha256sum -c cosva-setup_VERSION_arm64.deb.sha256
+```
+
+If you perform this check, continue only when it reports `OK`.
 
 ## Release channels and updates
 
