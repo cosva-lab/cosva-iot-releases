@@ -43,4 +43,4 @@ The independent recovery panel remains at `http://127.0.0.1:3501/updates` when t
 
 The Raspberry verifies manifests with the trusted public key embedded in the installer and downloads images by immutable digest. Private signing keys, build credentials and farm data are not distributed.
 
-Version **1.0.1** has a known packaging issue on clean systems. Use **1.0.2 or newer** instead; repair does not require deleting configuration or Docker volumes.
+Use **1.0.3 or newer**. Version **1.0.1** has a packaging issue on clean systems; **1.0.2** fixes that archive but its service images cannot load an absolute farm-configuration path. Version **1.0.3** fixes both issues. Preserve existing configuration and Docker volumes when repairing an installation.
