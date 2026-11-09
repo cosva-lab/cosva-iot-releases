@@ -4,9 +4,29 @@ Public installers and release artifacts for **Raspberry Pi 5 (8 GB)** running **
 
 **[Download Cosva](https://github.com/cosva-lab/cosva-iot-releases/releases)**
 
-Downloads do not require a GitHub account or token. Development source is maintained in the private `cosva-lab/cosva-iot` monorepo. This repository contains distribution documentation and release artifacts only.
+Downloads do not require a GitHub account or token. Development source is maintained in the private `cosva-lab/cosva-iot` monorepo. This repository contains distribution documentation, bootstrap scripts and release artifacts only.
 
-## Install
+## Install or upgrade with one command
+
+On the Raspberry, outside milking hours, install the latest **stable** helper:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/cosva-lab/cosva-iot-releases/main/install.sh | bash
+```
+
+To explicitly select the newest published release, **including testing candidates**:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/cosva-lab/cosva-iot-releases/main/install.sh | bash -s -- --candidate
+```
+
+There may be no stable release yet. The default command stops in that case; it never silently falls back to a candidate. To choose a specific published version, replace `--candidate` with `--version 1.0.20` (or the version you need).
+
+The script checks Ubuntu 24.04/26.04 and ARM64, downloads the public Debian and its SHA-256 receipt, verifies the checksum and package identity, then runs APT with sudo. It preserves modified local configuration, removes temporary downloads and does not reboot. No Node.js, Python, GitHub CLI or GitHub login is needed on the Raspberry. It only installs/upgrades the helper; request application-service updates separately from **Settings → Updates**. Publishing a release never runs this command on a device.
+
+Continue with step 3 below after installation. You can also download the script, inspect it and run `bash install.sh --help` before installing.
+
+## Manual installation
 
 1. Download `cosva-setup_VERSION_arm64.deb` from a release.
 2. On the Raspberry, outside milking hours, open a terminal in its download directory and install:
