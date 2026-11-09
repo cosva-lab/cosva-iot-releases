@@ -21,7 +21,7 @@ actualización de los servicios de la aplicación.
 HELP
   }
 
-  local channel=stable version= selected=false
+  local channel=stable version='' selected=false
   while (($#)); do
     case "$1" in
       --help|-h) usage; return 0 ;;
